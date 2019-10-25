@@ -1,24 +1,17 @@
 const Koa = require('koa')
 const axios = require('axios')
 const Router = require('koa-router')
+const requireDirectory = require('require-directory')
+requireDirectory(module)
+const routers = require('./api/v1.0.0') 
+
 // 应用程序对象
 const app = new Koa()
-const router = new Router()
 
-router.get('/classic/latest', (ctx, next) => {
-  ctx.body = {url: '/classic/latest'}
-  next()
-})
-
-app
-  .use(router.routes())
-  .use(async (ctx, next) => {
-  // await next()
-  const url = ctx.path
-  console.log(url)
-  // if (ctx.path === '/classic/latest') {
-    
-  // }
-})
+for (const obj in routers) {
+  if (obj instanceof Router) {
+    app.use(obj.routes())
+  }
+}
 
 app.listen(3000)
