@@ -1,17 +1,16 @@
 const Koa = require('koa')
 const axios = require('axios')
-const Router = require('koa-router')
-const requireDirectory = require('require-directory')
-requireDirectory(module)
-const routers = require('./api/v1.0.0') 
+const parser = require('koa-bodyparser')
+const InitManager = require('./core/init')
+const catchError = require('./middlewares/exception')
+
+require('./app/models/user')
 
 // 应用程序对象
 const app = new Koa()
+app.use(catchError)
+app.use(parser)
 
-for (const obj in routers) {
-  if (obj instanceof Router) {
-    app.use(obj.routes())
-  }
-}
+InitManager.initCore(app)
 
 app.listen(3000)
