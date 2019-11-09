@@ -14,10 +14,13 @@ const sequelize = new Sequelize(dbName, user, password, {
   logging: true,
   timezone: '+08:00',
   define: {
-    timestamps: false
+    timestamps: true,
+    paranoid: true
   }
 })
-sequelize.sync()
+sequelize.sync({
+  force: true
+})
 
 module.exports = {
   db: sequelize
