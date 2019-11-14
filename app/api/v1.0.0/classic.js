@@ -4,7 +4,7 @@ const {HttpException, ParameterException} = require('../../../core/http-exceptio
 const {PositiveIntegerValidator} = require('../../validators/validator')
 
 
-router.post('/v1.0.0/:id/classic/latest', (ctx, next) => {
+router.post('/v1.0.0/:id/classic/latest', async (ctx, next) => {
   const path = ctx.params
   const query = ctx.request.query
   const headers = ctx.request.header
@@ -14,7 +14,7 @@ router.post('/v1.0.0/:id/classic/latest', (ctx, next) => {
 
   // }
 
-  const v = new PositiveIntegerValidator().validate(ctx)
+  const v = await new PositiveIntegerValidator().validate(ctx)
   const id = v.get('path.id', parsed=false)
   ctx.body = {key: 'classic'}
   

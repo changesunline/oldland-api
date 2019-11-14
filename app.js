@@ -9,7 +9,7 @@ require('./app/models/user')
 // 应用程序对象
 const app = new Koa()
 app.use(catchError)
-app.use(parser)
+app.use(parser())
 
 InitManager.initCore(app)
 
